@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  cloud-border-router:
+    build: .
+    image: portenta-router
+    ports:
+      - "80:80"
+    env_file:
+      - .env

@@ -1,0 +1,7 @@
+CLIENT_ID=
+CLIENT_SECRET=
+THING_ID=
+ORG_ID=
+AUDIENCE_URL=https://api2.arduino.cc/iot
+TOKEN_URL=https://api2.arduino.cc/iot/v1/clients/token
+CONFIGURATION_HOST_URL=https://api2.arduino.cc

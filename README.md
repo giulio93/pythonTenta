@@ -1,3 +1,2 @@
-# pythonTenta
-- docker build -t portenta-router .   
-- docker run -d --env-file .env -p 80:80 --name matter-boarder-router-app portenta-router
+# Cloud_To_Matter_Border_Router
+- docker-compose up -d

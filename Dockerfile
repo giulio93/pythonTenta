@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define the command to run the application
-CMD ["python", "BoardEdgeRouter.py"]
+CMD ["python", "/app/main.py"]

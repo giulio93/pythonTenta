@@ -1,5 +1,7 @@
 import iot_api_client as iot
 import api_utils as utils
+import chip_tool_interface as chip_tool
+
 from iot_api_client.exceptions import ApiException
 from iot_api_client.configuration import Configuration
 from iot_api_client.api import DevicesV2Api, ThingsV2Api ,PropertiesV2Api
@@ -107,6 +109,7 @@ def update_prop_name(property):
 
 if __name__ == "__main__":
     known_properties = set()
+    chip_tool.run_chip_tool()
     while True:
         updated_set=monitor_and_update(known_properties)
         if updated_set!="retry":

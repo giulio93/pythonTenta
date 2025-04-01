@@ -1,9 +1,15 @@
 version: "3.8"
+
 services:
   cloud-border-router:
+    image: giulionepasticcione/portenta-router:v2.0
     build: .
-    image: portenta-router
+    pull_policy: missing
     ports:
       - "80:80"
     env_file:
       - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Allow container to communicate with Docker
+      - ~/.docker:/root/.docker  # Mount Docker config for authentication (if needed)
+    privileged: true  # Optional: Needed if managing Docker inside the container

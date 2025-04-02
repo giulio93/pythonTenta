@@ -1,15 +1,27 @@
 # Use an official Python runtime as a parent image
+FROM python:3.10-alpine AS builder
+
+# Set the working directory in the builder stage
+WORKDIR /app
+
+# Copy only the requirements file to install dependencies
+COPY requirements.txt .
+
+# Install dependencies in the builder stage
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Final stage
 FROM python:3.10-alpine
 
+# Set the working directory in the final stage
+WORKDIR /app
 
-# Set the working directory in the container
-WORKDIR /
+# Copy only the necessary files from the builder stage
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Copy the current directory contents into the container
+# Copy the application code
 COPY . .
-
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port 80 to allow external access
 EXPOSE 80

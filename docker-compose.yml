@@ -4,6 +4,7 @@ services:
   cloud-border-router:
     image: giulionepasticcione/portenta-router:v2.0
     build: .
+    platform: linux/arm64/v8
     pull_policy: missing
     ports:
       - "80:80"

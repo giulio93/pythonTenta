@@ -23,8 +23,5 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy the application code
 COPY . .
 
-# Expose port 80 to allow external access
-EXPOSE 80
-
 # Define the command to run the application
 CMD ["python", "/app/main.py"]

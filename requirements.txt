@@ -1,10 +1,13 @@
 annotated-types==0.7.0
 arduino-iot-client==3.0.0
+arduino_iot_cloud==1.4.1
+cbor2==5.6.5
 certifi==2025.1.31
 charset-normalizer==3.4.1
 docker==7.1.0
 dotenv==0.9.9
 idna==3.10
+micropython-senml==0.1.1
 oauthlib==3.2.2
 pydantic==2.10.6
 pydantic_core==2.27.2

@@ -1,15 +1,60 @@
 version: "3.8"
 
 services:
+  otbr:
+    image: arduino/otbr:latest
+    container_name: otbr
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    restart: unless-stopped
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - "/run/dbus/system_bus_socket:/run/dbus/system_bus_socket"
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
+      - CHANNEL=${CHANNEL:-15}
+      - PANID=${PANID:-0x1234}
+      - NETWORKKEY=${NETWORKKEY:-00112233445566778899aabbccddeeff}
+    stdin_open: true
+    tty: true
+    entrypoint: otbr-agent -I wpan0 -B eth0 spinel+hdlc+uart:///dev/ttyACM0 -v trel://eth0
+    network_mode: "host"
+
+  chip-tool:
+    image: arduino/chip-tool:latest
+    container_name: chip-tool
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - "/run/dbus/system_bus_socket:/run/dbus/system_bus_socket"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
+    stdin_open: true
+    tty: true
+    depends_on:
+      - otbr
+    restart: unless-stopped
+    network_mode: "host"
+    
   cloud-border-router:
     image: giulionepasticcione/portenta-router:v2.0
-    build: .
-    pull_policy: missing
-    ports:
-      - "80:80"
+    container_name: cloud-border-router
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    #ports:
+    #  - "80:80"
     env_file:
       - .env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # Allow container to communicate with Docker
-      - ~/.docker:/root/.docker  # Mount Docker config for authentication (if needed)
-    privileged: true  # Optional: Needed if managing Docker inside the container
+      - "/run/dbus/system_bus_socket:/run/dbus/system_bus_socket"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    network_mode: "host"

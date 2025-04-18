@@ -75,6 +75,8 @@ if __name__ == "__main__":
     
     # Switch callback, toggles the LED.
     def message_receive(client, value):
+        global connected
+
         # Note the client object passed to this function can be used to access
         # and modify any registered cloud object. The following line updates
         # the LED value.
@@ -102,6 +104,9 @@ if __name__ == "__main__":
             client["message"] = "Start Chip Tool failed.."
         elif msg == "Start" and THREAD_DATA_SET != None:
             client["message"] = "Thread Network successfully started"
+        elif msg == "SetConnected" and THREAD_DATA_SET != None:
+            client["message"] = "Connected"
+            connected = True
         else: 
             client["message"] = "receive"
 
@@ -118,19 +123,19 @@ if __name__ == "__main__":
         # print(random_var)
         # return random_var   
         if THREAD_DATA_SET != None and connected == True:          
-              output=chip_tool.read_value("0x0000000000000001")
-              if output != None:
-                    print(output)
-                    match = re.search(r'MeasuredValue:\s*(\d+)', output)
-                    # If a match is found, capture the value as a float
-                    if match:
-                        measured_value = float(match.group(1))
-                        val = measured_value/100.0
-                        print(val)
-                        return val 
-                    else:
-                        print("No match found.")
-                        return 0.0
+            output=chip_tool.read_value("0x0000000000000001")
+            if output != None:
+                print(output)
+                match = re.search(r'MeasuredValue:\s*(\d+)', output)
+                # If a match is found, capture the value as a float
+                if match:
+                    measured_value = float(match.group(1))
+                    val = measured_value/100.0
+                    print(val)
+                    return val 
+                else:
+                    print("No match found.")
+                    return 0.0
     
      
     THREAD_DATA_SET = chip_tool.start_chip_tool()

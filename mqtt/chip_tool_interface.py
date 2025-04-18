@@ -50,7 +50,7 @@ def start_chip_tool():
         
         
 def connect_to_device(th_set,pin):
-    command3 = f"mattertool pairing code-thread 1 hex:{th_set} {pin}"
+    command3 = f"chip-tool pairing code-thread 1 hex:{th_set} {pin}"
     try:
         container3 = client.containers.get(chip_too_c)
         
@@ -69,7 +69,7 @@ def connect_to_device(th_set,pin):
         
         
 def matter_onoff(th_set,mode, matter_code):
-    command = f"mattertool onoff {mode} {matter_code} 0x03"
+    command = f"chip-tool onoff {mode} {matter_code} 0x03"
     try:
         container = client.containers.get(chip_too_c)
         
@@ -88,7 +88,7 @@ def matter_onoff(th_set,mode, matter_code):
         
 
 def read_value(matter_code):
-    command = f"mattertool temperaturemeasurement read measured-value {matter_code} 0x04"
+    command = f"chip-tool temperaturemeasurement read measured-value {matter_code} 0x04"
     try:
         container = client.containers.get(chip_too_c)
         

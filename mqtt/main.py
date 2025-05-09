@@ -122,7 +122,7 @@ if __name__ == "__main__":
         # random_var = random.uniform(1.0, 100.0)  # Generate a random number between 1 and 100
         # print(random_var)
         # return random_var   
-        if THREAD_DATA_SET != None and connected == True:          
+        if THREAD_DATA_SET != None:          
             output=chip_tool.read_value("0x0000000000000001")
             if output != None:
                 print(output)
@@ -149,10 +149,10 @@ if __name__ == "__main__":
     # Note: The following objects must be created first in the dashboard and linked to the device.
     # When the switch is toggled from the dashboard, the on_switch_changed function is called with
     # the client object and new value args.
-    client.register("smartPlug", value=None, on_write=on_switch_changed,  interval=0.250)
+    client.register("smartPlug", value=False, on_write=on_switch_changed,  interval=0.250)
     
     # The LED object is updated in the switch's on_write callback.
-    client.register("led", value=None)
+    client.register("led", value=False)
     client.register("message", value=None, on_write=message_receive,interval=0.250)  
     client.register("temperature", value=None, on_read=lambda _: generate_random_variable(connected), interval=1.0)
     client.register("vibration", value=None, on_read=lambda _: generate_random_variable(connected), interval=2.0)

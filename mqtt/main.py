@@ -122,7 +122,7 @@ if __name__ == "__main__":
         # random_var = random.uniform(1.0, 100.0)  # Generate a random number between 1 and 100
         # print(random_var)
         # return random_var   
-        if THREAD_DATA_SET != None:          
+        if THREAD_DATA_SET != None and connected==True:          
             output=chip_tool.read_value("0x0000000000000001")
             if output != None:
                 print(output)
